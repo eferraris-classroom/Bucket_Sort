@@ -19,6 +19,7 @@ typedef struct Lista{
 }lista;
 lista * newLista();
 nodo * newnodo(int n);
+void BucketSort(int *);
 void inicializarBuckets(lista * buckest[]);
 void insertar_en_bucket(lista * buckest[],nodo * nodo1);
 void encolar(lista * lista1, nodo * nodoAinsertar);

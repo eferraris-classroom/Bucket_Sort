@@ -5,6 +5,21 @@
 #include <stdio.h>
 #include "bucket_sort.h"
 
+
+void BucketSort(int *array) {
+    lista *buckets[NUMERO_BUCKETS];
+    inicializarBuckets(buckets);
+    for (int i = 0; i < TAMANIO_ARREGLO; ++i) {
+        insertar_en_bucket(buckets, newnodo(array[i]));
+    }
+    for (int i = 0; i < NUMERO_BUCKETS; ++i){
+        ordenar_buckets(buckets,i);
+    }
+    mostrarbuckets(buckets);
+    ordenar_array(array,buckets);
+
+}
+
 lista *newLista() {
     lista * aux= malloc(sizeof(lista));
     aux->principio=NULL;
@@ -101,3 +116,4 @@ void ordenar_buckets(lista *buckest[],int pos) {
         }
     }
 }
+
