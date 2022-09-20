@@ -23,7 +23,7 @@ void inicializarBuckets(lista * buckest[]);
 void insertar_en_bucket(lista * buckest[],nodo * nodo1);
 void encolar(lista * lista1, nodo * nodoAinsertar);
 int hash(int valor);
-void ordenar_buckets(lista*buckest[]);
+void ordenar_buckets(lista*buckest[],int pos);
 void mostrar(lista * lista1);
 void mostrarbuckets(lista * buckets[]);
 void ordenar_array(int *array,lista * buckets[]);

@@ -25,12 +25,13 @@ int hash(int valor) {
 }
 
 void encolar(lista *cola, nodo *nodoAencolar) {
-    nodo *aux=cola->fin;
+    nodo *aux=cola->principio;
     if(cola->principio==NULL)
     {
         cola->principio=nodoAencolar;
-        cola->fin=nodoAencolar;
+        //cola->fin=nodoAencolar;
     } else{
+        for (;aux->sig!=NULL ; aux=aux->sig) {}
         aux->sig=nodoAencolar;
     }
     cola->elementos++;
@@ -83,6 +84,20 @@ void mostrarArray(int *array) {
 
 }
 
-void ordenar_buckets(lista **buckest) {
-
+void ordenar_buckets(lista *buckest[],int pos) {
+    nodo *aux=buckest[pos]->principio,*next=NULL;
+    int temporal;
+    for (;aux!=NULL ;aux=aux->sig) {
+        next=aux->sig;
+        while (next!=NULL)
+        {
+            if(next->dato < aux->dato)
+            {
+                temporal=next->dato;
+                next->dato=aux->dato;
+                aux->dato=temporal;
+            }
+            next=next->sig;
+        }
+    }
 }
