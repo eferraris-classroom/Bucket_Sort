@@ -7,23 +7,23 @@
 
 
 void BucketSort(int *array) {
-    lista *buckets[NUMERO_BUCKETS];
+    lista *buckets[NUMERO_BUCKETS],*buckets2[NUMERO_BUCKETS];
     inicializarBuckets(buckets);
+    inicializarBuckets(buckets2);
     for (int i = 0; i < TAMANIO_ARREGLO; ++i) {
         insertar_en_bucket(buckets, newnodo(array[i]));
     }
-    for (int i = 0; i < NUMERO_BUCKETS; ++i){
-        ordenar_buckets(buckets,i);
+    concatenar(array, buckets);
+    for (int i = 0; i < TAMANIO_ARREGLO; ++i) {
+        insertar_en_bucket2(buckets2, newnodo(array[i]));
     }
-    mostrarbuckets(buckets);
-    ordenar_array(array,buckets);
-
+    concatenar(array,buckets2);
+    //mostrarbuckets(buckets);
 }
 
 lista *newLista() {
     lista * aux= malloc(sizeof(lista));
     aux->principio=NULL;
-    aux->fin=NULL;
     aux->elementos=0;
     return aux;
 }
@@ -35,8 +35,12 @@ nodo *newnodo(int n) {
     return aux;
 }
 
-int hash(int valor) {
-    return valor/CAPACIDAD;
+int hash1iteracion(int valor) {
+    return valor%NUMERO_BUCKETS;
+}
+
+int hash2iteracion(int valor) {
+    return valor/NUMERO_BUCKETS;
 }
 
 void encolar(lista *cola, nodo *nodoAencolar) {
@@ -52,17 +56,20 @@ void encolar(lista *cola, nodo *nodoAencolar) {
     cola->elementos++;
 }
 
-void inicializarBuckets(lista * buckest[CAPACIDAD]) {
-    for (int i = 0; i < CAPACIDAD; ++i) {
+void inicializarBuckets(lista * buckest[NUMERO_BUCKETS]) {
+    for (int i = 0; i < NUMERO_BUCKETS; ++i) {
         buckest[i]=newLista();
     }
 }
 
-void insertar_en_bucket(lista *buckest[CAPACIDAD], nodo *nodo1) {
-    int cubeta= hash(nodo1->dato);
+void insertar_en_bucket(lista *buckest[NUMERO_BUCKETS], nodo *nodo1) {
+    int cubeta= hash1iteracion(nodo1->dato);
     encolar(buckest[cubeta], nodo1);
 }
-
+void insertar_en_bucket2(lista *buckest[NUMERO_BUCKETS], nodo *nodo1) {
+    int cubeta= hash2iteracion(nodo1->dato);
+    encolar(buckest[cubeta],nodo1);
+}
 void mostrar(lista *lista1) {
     nodo *aux=lista1->principio;
     for (;aux!=NULL ; aux=aux->sig) {
@@ -79,7 +86,7 @@ void mostrarbuckets(lista **buckets) {
     }
 }
 
-void ordenar_array(int *array, lista **buckets) {
+void concatenar(int *array, lista *buckets[]) {
     for (int i = 0,j=0; i <NUMERO_BUCKETS ; ++i) {
         nodo *aux=buckets[i]->principio;
         while (aux!=NULL){
@@ -99,21 +106,4 @@ void mostrarArray(int *array) {
 
 }
 
-void ordenar_buckets(lista *buckest[],int pos) {
-    nodo *aux=buckest[pos]->principio,*next=NULL;
-    int temporal;
-    for (;aux!=NULL ;aux=aux->sig) {
-        next=aux->sig;
-        while (next!=NULL)
-        {
-            if(next->dato < aux->dato)
-            {
-                temporal=next->dato;
-                next->dato=aux->dato;
-                aux->dato=temporal;
-            }
-            next=next->sig;
-        }
-    }
-}
 

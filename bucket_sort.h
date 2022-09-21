@@ -6,7 +6,6 @@
 #define BUCKET_SORT_BUCKET_SORT_H
 #define TAMANIO_ARREGLO 20
 #define NUMERO_BUCKETS 10
-#define CAPACIDAD 10 //capacidad de cada cubeta
 
 typedef struct Nodo{
     int dato;
@@ -14,7 +13,6 @@ typedef struct Nodo{
 }nodo;
 typedef struct Lista{
     nodo * principio;
-    nodo * fin;
     int elementos;
 }lista;
 lista * newLista();
@@ -22,12 +20,13 @@ nodo * newnodo(int n);
 void BucketSort(int *);
 void inicializarBuckets(lista * buckest[]);
 void insertar_en_bucket(lista * buckest[],nodo * nodo1);
+void insertar_en_bucket2(lista * buckest[],nodo * nodo1);
 void encolar(lista * lista1, nodo * nodoAinsertar);
-int hash(int valor);
-void ordenar_buckets(lista*buckest[],int pos);
+int hash1iteracion(int valor);
+int hash2iteracion(int valor);
 void mostrar(lista * lista1);
 void mostrarbuckets(lista * buckets[]);
-void ordenar_array(int *array,lista * buckets[]);
+void concatenar(int *array, lista * buckets[]);
 void mostrarArray(int *array);
 
 #endif //BUCKET_SORT_BUCKET_SORT_H
