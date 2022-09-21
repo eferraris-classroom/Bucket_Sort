@@ -13,6 +13,7 @@ typedef struct Nodo{
 }nodo;
 typedef struct Lista{
     nodo * principio;
+    nodo * fin;
     int elementos;
 }lista;
 lista * newLista();

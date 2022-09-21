@@ -7,23 +7,24 @@
 
 
 void BucketSort(int *array) {
-    lista *buckets[NUMERO_BUCKETS],*buckets2[NUMERO_BUCKETS];
-    inicializarBuckets(buckets);
+    lista *buckets1[NUMERO_BUCKETS],*buckets2[NUMERO_BUCKETS];
+    inicializarBuckets(buckets1);//Cte
     inicializarBuckets(buckets2);
     for (int i = 0; i < TAMANIO_ARREGLO; ++i) {
-        insertar_en_bucket(buckets, newnodo(array[i]));
+        insertar_en_bucket(buckets1, newnodo(array[i]));
     }
-    concatenar(array, buckets);
+    concatenar(array, buckets1);
     for (int i = 0; i < TAMANIO_ARREGLO; ++i) {
         insertar_en_bucket2(buckets2, newnodo(array[i]));
     }
     concatenar(array,buckets2);
-    //mostrarbuckets(buckets);
+    //mostrarbuckets(buckets1);
 }
 
 lista *newLista() {
     lista * aux= malloc(sizeof(lista));
     aux->principio=NULL;
+    aux->fin=NULL;
     aux->elementos=0;
     return aux;
 }
@@ -44,14 +45,13 @@ int hash2iteracion(int valor) {
 }
 
 void encolar(lista *cola, nodo *nodoAencolar) {
-    nodo *aux=cola->principio;
     if(cola->principio==NULL)
     {
         cola->principio=nodoAencolar;
-        //cola->fin=nodoAencolar;
+        cola->fin=nodoAencolar;
     } else{
-        for (;aux->sig!=NULL ; aux=aux->sig) {}
-        aux->sig=nodoAencolar;
+        cola->fin->sig=nodoAencolar;
+        cola->fin=nodoAencolar;
     }
     cola->elementos++;
 }
@@ -87,16 +87,30 @@ void mostrarbuckets(lista **buckets) {
 }
 
 void concatenar(int *array, lista *buckets[]) {
-    for (int i = 0,j=0; i <NUMERO_BUCKETS ; ++i) {
-        nodo *aux=buckets[i]->principio;
-        while (aux!=NULL){
-            array[j]=aux->dato;
-            aux=aux->sig;
-            j++;
+    if (buckets[0]->principio==NULL){
+        for (int i = 1; i < NUMERO_BUCKETS ; i++) {
+            if (buckets[i]->fin != NULL){
+                buckets[0]->principio=buckets[i]->principio;
+                buckets[0]->fin=buckets[i]->fin;
+                buckets[i]->fin=NULL;
+                break;}
         }
     }
+    for (int j = 1; j < NUMERO_BUCKETS; ++j) {
+        if(buckets[j]->fin!=NULL)
+        {
+            buckets[0]->fin->sig=buckets[j]->principio;
+            buckets[0]->fin=buckets[j]->fin;
+        }
+    }
+    for (int j = 0; j <TAMANIO_ARREGLO ; ++j) {
+        array[j]=buckets[0]->principio->dato;
+        buckets[0]->principio=buckets[0]->principio->sig;
+    }
 
-}
+    }
+
+
 
 void mostrarArray(int *array) {
     for (int i = 0; i < TAMANIO_ARREGLO; ++i) {
