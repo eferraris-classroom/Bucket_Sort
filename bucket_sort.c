@@ -8,17 +8,21 @@
 
 void BucketSort(int *array) {
     lista *buckets1[NUMERO_BUCKETS],*buckets2[NUMERO_BUCKETS];
-    inicializarBuckets(buckets1);//Cte
+
+    inicializarBuckets(buckets1);
     inicializarBuckets(buckets2);
-    for (int i = 0; i < TAMANIO_ARREGLO; ++i) {
-        insertar_en_bucket(buckets1, newnodo(array[i]));
-    }
-    concatenar(array, buckets1);
-    for (int i = 0; i < TAMANIO_ARREGLO; ++i) {
-        insertar_en_bucket2(buckets2, newnodo(array[i]));
-    }
-    concatenar(array,buckets2);
+
+    for (int i = 0; i < TAMANIO_ARREGLO; ++i)
+        {insertar_en_bucket(buckets1, newnodo(array[i]));}
+
     //mostrarbuckets(buckets1);
+    concatenar(array, buckets1);
+
+    for (int i = 0; i < TAMANIO_ARREGLO; ++i)
+        {insertar_en_bucket2(buckets2, newnodo(array[i]));}
+
+    //mostrarbuckets(buckets2);
+    concatenar(array,buckets2);
 }
 
 lista *newLista() {
@@ -66,10 +70,12 @@ void insertar_en_bucket(lista *buckest[NUMERO_BUCKETS], nodo *nodo1) {
     int cubeta= hash1iteracion(nodo1->dato);
     encolar(buckest[cubeta], nodo1);
 }
+
 void insertar_en_bucket2(lista *buckest[NUMERO_BUCKETS], nodo *nodo1) {
     int cubeta= hash2iteracion(nodo1->dato);
     encolar(buckest[cubeta],nodo1);
 }
+
 void mostrar(lista *lista1) {
     nodo *aux=lista1->principio;
     for (;aux!=NULL ; aux=aux->sig) {
@@ -84,6 +90,7 @@ void mostrarbuckets(lista **buckets) {
         printf("Bucket %d: ",i);
         mostrar(buckets[i]);
     }
+    printf("\n");
 }
 
 void concatenar(int *array, lista *buckets[]) {
@@ -107,17 +114,12 @@ void concatenar(int *array, lista *buckets[]) {
         array[j]=buckets[0]->principio->dato;
         buckets[0]->principio=buckets[0]->principio->sig;
     }
-
-    }
-
-
+}
 
 void mostrarArray(int *array) {
     for (int i = 0; i < TAMANIO_ARREGLO; ++i) {
         printf("%d-",array[i]);
     }
-    printf("\n");
+    printf("\n\n");
 
 }
-
-
